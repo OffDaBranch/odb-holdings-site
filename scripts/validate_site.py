@@ -24,6 +24,23 @@ REQUIRED_SNIPPETS = [
     "admin@branchoffholdings.com",
     "Request Partnership Meeting",
     "Operating Focus",
+    "branchoffholdings.com",
+    "Founder-led holding company",
+]
+
+REQUIRED_SECTION_IDS = [
+    'id="portfolio"',
+    'id="model"',
+    'id="vision"',
+    'id="founder"',
+    'id="contact"',
+]
+
+REQUIRED_META_SNIPPETS = [
+    'property="og:title"',
+    'rel="canonical"',
+    "application/ld+json",
+    "mailto:admin@branchoffholdings.com",
 ]
 
 
@@ -37,6 +54,14 @@ def main() -> int:
         for snippet in REQUIRED_SNIPPETS:
             if snippet not in html:
                 errors.append(f"index.html must contain {snippet!r}.")
+
+        for section_id in REQUIRED_SECTION_IDS:
+            if section_id not in html:
+                errors.append(f"index.html must contain section marker {section_id!r}.")
+
+        for snippet in REQUIRED_META_SNIPPETS:
+            if snippet not in html:
+                errors.append(f"index.html must contain deploy/metadata snippet {snippet!r}.")
 
     if not WRANGLER.exists():
         errors.append("wrangler.jsonc is missing.")
