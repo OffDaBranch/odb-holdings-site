@@ -18,7 +18,14 @@
   />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://branchoffholdings.com" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Branch Off Holdings" />
+  <meta
+    name="twitter:description"
+    content="Founder-led holding company focused on systems, IP, workforce infrastructure, and durable ownership positions."
+  />
   <link rel="canonical" href="https://branchoffholdings.com" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d0d10'/%3E%3Cpath d='M16 46V18h14c8 0 13 4 13 11 0 6-4 10-11 11l12 6H33l-10-5H22v5H16zm6-10h7c5 0 8-2 8-6 0-4-3-6-8-6h-7v12z' fill='%23d8b070'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -233,7 +240,8 @@
     .section-copy p,
     .detail-copy p,
     .founder-copy p,
-    .cta-panel p {
+    .cta-panel p,
+    .form-disclaimer {
       color: var(--ivory-soft);
       max-width: 60ch;
       font-size: 1.04rem;
@@ -508,6 +516,11 @@
       font-size: 0.94rem;
     }
 
+    .form-disclaimer {
+      margin: 0;
+      font-size: 0.94rem;
+    }
+
     .cta-links {
       display: flex;
       flex-wrap: wrap;
@@ -638,6 +651,7 @@
       </a>
       <nav class="header-links" aria-label="Primary navigation">
         <a href="#portfolio">Operating Focus</a>
+        <a href="#proof">Proof</a>
         <a href="#model">Model</a>
         <a href="#founder">Founder</a>
         <a class="header-cta" href="#contact">Request Meeting</a>
@@ -657,7 +671,7 @@
           </p>
           <div class="hero-actions">
             <a class="button button-primary" href="#contact">Request Partnership Meeting</a>
-            <a class="button button-secondary" href="#contact">Licensing Inquiry</a>
+            <a class="button button-secondary" href="#proof">See what we build</a>
           </div>
         </div>
 
@@ -703,6 +717,33 @@
           <div class="lane reveal">
             <h3>Workforce and land</h3>
             <p>Training infrastructure, apprenticeship paths, and land-based initiatives with long-cycle strategic value.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="proof">
+      <div class="section-grid">
+        <div class="section-copy reveal">
+          <p class="section-label">Execution Proof</p>
+          <h2>What the holdings layer is built to control.</h2>
+          <p>
+            This company is not positioned as a generic consulting label. It is structured to control entities,
+            systems, licensing paths, and durable assets that can compound over time.
+          </p>
+        </div>
+        <div class="lane-grid">
+          <div class="lane reveal">
+            <h3>Entity and IP control</h3>
+            <p>Ownership structure, rights stewardship, and cleaner separation between operating lanes and protected assets.</p>
+          </div>
+          <div class="lane reveal">
+            <h3>Licensing and monetization</h3>
+            <p>Licensable systems, revenue routing logic, and asset positions designed for repeatable monetization.</p>
+          </div>
+          <div class="lane reveal">
+            <h3>Workflow infrastructure</h3>
+            <p>Operational documentation, intake discipline, and automation paths that reduce founder-only execution risk.</p>
           </div>
         </div>
       </div>
@@ -816,6 +857,7 @@
           </div>
           <textarea class="field-span-full" name="message" placeholder="Describe the opportunity, request, or buildout you want to discuss." required></textarea>
           <button type="submit" class="button button-primary">Send inquiry</button>
+          <p class="form-disclaimer">By submitting, you agree to be contacted about your request.</p>
           <p id="contact-status" class="public-intake-status" aria-live="polite"></p>
         </form>
         <div class="cta-links">
