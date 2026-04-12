@@ -1,12 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "odb-holdings-site",
-  "compatibility_date": "2025-09-27",
+  "compatibility_date": "2026-04-12",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page"
   },
   "compatibility_flags": [
     "nodejs_compat"
