@@ -2,23 +2,24 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PUBLIC = ROOT / "public"
 WRANGLER = ROOT / "wrangler.jsonc"
 
 REQUIRED_PATHS = [
-    ROOT / "index.html",
-    ROOT / "styles.css",
-    ROOT / "site.js",
-    ROOT / "404.html",
-    ROOT / "about" / "index.html",
-    ROOT / "companies" / "index.html",
-    ROOT / "assets" / "index.html",
-    ROOT / "licensing" / "index.html",
-    ROOT / "contact" / "index.html",
-    ROOT / "privacy" / "index.html",
+    PUBLIC / "index.html",
+    PUBLIC / "styles.css",
+    PUBLIC / "site.js",
+    PUBLIC / "404.html",
+    PUBLIC / "about" / "index.html",
+    PUBLIC / "companies" / "index.html",
+    PUBLIC / "assets" / "index.html",
+    PUBLIC / "licensing" / "index.html",
+    PUBLIC / "contact" / "index.html",
+    PUBLIC / "privacy" / "index.html",
 ]
 
 PAGE_EXPECTATIONS = {
-    ROOT / "index.html": [
+    PUBLIC / "index.html": [
         "Founder-led holding company",
         'href="/about"',
         'href="/companies"',
@@ -26,32 +27,32 @@ PAGE_EXPECTATIONS = {
         'href="/licensing"',
         'href="/contact"',
     ],
-    ROOT / "about" / "index.html": [
+    PUBLIC / "about" / "index.html": [
         "HoldCo Model",
         "Ownership Philosophy",
     ],
-    ROOT / "companies" / "index.html": [
+    PUBLIC / "companies" / "index.html": [
         "Companies And Brands",
         "Current Portfolio Map",
     ],
-    ROOT / "assets" / "index.html": [
+    PUBLIC / "assets" / "index.html": [
         "Assets And Projects",
         "Asset Classes",
     ],
-    ROOT / "licensing" / "index.html": [
+    PUBLIC / "licensing" / "index.html": [
         "Licensing And IP",
         "What Can Be Licensed",
     ],
-    ROOT / "contact" / "index.html": [
+    PUBLIC / "contact" / "index.html": [
         'data-contact-form',
         "Partnerships",
         "Licensing",
     ],
-    ROOT / "privacy" / "index.html": [
+    PUBLIC / "privacy" / "index.html": [
         "How inquiry data is handled.",
         "admin@branchoffholdings.com",
     ],
-    ROOT / "404.html": [
+    PUBLIC / "404.html": [
         "The page you requested is not available.",
         'href="/"',
     ],
@@ -77,18 +78,9 @@ FORBIDDEN_PATHS = [
 ]
 
 ALLOWED_TOP_LEVEL = {
-    "404.html",
     "README.md",
-    "about",
-    "assets",
-    "companies",
-    "contact",
-    "index.html",
-    "licensing",
-    "privacy",
+    "public",
     "scripts",
-    "site.js",
-    "styles.css",
     "wrangler.jsonc",
 }
 
@@ -113,25 +105,26 @@ def main() -> int:
             if snippet not in html:
                 errors.append(f"{path.relative_to(ROOT)} must contain {snippet!r}.")
 
-    styles = ROOT / "styles.css"
+    styles = PUBLIC / "styles.css"
     if styles.exists():
         css = styles.read_text(encoding="utf-8")
         for snippet in [":root", ".site-header", ".page-hero", ".contact-form"]:
             if snippet not in css:
-                errors.append(f"styles.css must contain {snippet!r}.")
+                errors.append(f"public/styles.css must contain {snippet!r}.")
 
-    script = ROOT / "site.js"
+    script = PUBLIC / "site.js"
     if script.exists():
         js = script.read_text(encoding="utf-8")
         for snippet in ['"/api/public/intake/contact"', "data-contact-form", "IntersectionObserver"]:
             if snippet not in js:
-                errors.append(f"site.js must contain {snippet!r}.")
+                errors.append(f"public/site.js must contain {snippet!r}.")
 
     if not WRANGLER.exists():
         errors.append("wrangler.jsonc is missing.")
     else:
         wrangler = WRANGLER.read_text(encoding="utf-8")
         for snippet in [
+            '"directory": "./public"',
             '"html_handling": "drop-trailing-slash"',
             '"not_found_handling": "404-page"',
             '"compatibility_date": "2026-04-12"',
