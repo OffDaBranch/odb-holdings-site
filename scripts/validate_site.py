@@ -12,7 +12,12 @@ REQUIRED_PATHS = [
     PUBLIC / "404.html",
     PUBLIC / "about" / "index.html",
     PUBLIC / "companies" / "index.html",
+    PUBLIC / "companies" / "branchops" / "index.html",
+    PUBLIC / "companies" / "trapcotton" / "index.html",
     PUBLIC / "assets" / "index.html",
+    PUBLIC / "assets" / "brand-assets" / "index.html",
+    PUBLIC / "assets" / "operating-systems" / "index.html",
+    PUBLIC / "assets" / "digital-property" / "index.html",
     PUBLIC / "licensing" / "index.html",
     PUBLIC / "contact" / "index.html",
     PUBLIC / "privacy" / "index.html",
@@ -26,6 +31,9 @@ PAGE_EXPECTATIONS = {
         'href="/assets"',
         'href="/licensing"',
         'href="/contact"',
+        'href="/companies/branchops"',
+        'href="/companies/trapcotton"',
+        'href="/assets/digital-property"',
     ],
     PUBLIC / "about" / "index.html": [
         "HoldCo Model",
@@ -34,10 +42,40 @@ PAGE_EXPECTATIONS = {
     PUBLIC / "companies" / "index.html": [
         "Companies And Brands",
         "Current Portfolio Map",
+        'href="/companies/branchops"',
+        'href="/companies/trapcotton"',
+    ],
+    PUBLIC / "companies" / "branchops" / "index.html": [
+        "BranchOps",
+        "Operating Scope",
+        'href="/assets/operating-systems"',
+    ],
+    PUBLIC / "companies" / "trapcotton" / "index.html": [
+        "TrapCotton",
+        "Brand System",
+        'href="/licensing"',
     ],
     PUBLIC / "assets" / "index.html": [
         "Assets And Projects",
         "Asset Classes",
+        'href="/assets/brand-assets"',
+        'href="/assets/operating-systems"',
+        'href="/assets/digital-property"',
+    ],
+    PUBLIC / "assets" / "brand-assets" / "index.html": [
+        "Brand Assets",
+        "TrapCotton",
+        'href="/companies/trapcotton"',
+    ],
+    PUBLIC / "assets" / "operating-systems" / "index.html": [
+        "Operating Systems",
+        "BranchOps",
+        'href="/companies/branchops"',
+    ],
+    PUBLIC / "assets" / "digital-property" / "index.html": [
+        "Digital Property",
+        "Controlled Surfaces",
+        'href="/contact"',
     ],
     PUBLIC / "licensing" / "index.html": [
         "Licensing And IP",
