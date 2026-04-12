@@ -22,6 +22,11 @@
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "404-page"
   },
+  "env": {
+    "preview": {
+      "workers_dev": true
+    }
+  },
   "compatibility_flags": [
     "nodejs_compat"
   ]
