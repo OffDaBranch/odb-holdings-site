@@ -21,7 +21,7 @@ Maintain a modular public-facing holdings site for Branch Off Holdings with a cl
 - `public/styles.css`: shared visual system across every route
 - `public/site.js`: shared mobile navigation, reveal behavior, and contact form submission logic
 - `public/404.html`: custom not-found page for Cloudflare static asset routing
-- `wrangler.jsonc`: Cloudflare Workers static asset deployment configuration with an isolated public asset directory
+- `wrangler.jsonc`: Cloudflare Workers static asset deployment configuration with an isolated public asset directory and a dedicated `preview` environment
 - `scripts/validate_site.py`: repository validation for route coverage, shared assets, and deployment-critical metadata
 - `.github/workflows/validate-site.yml`: CI guardrail for every push and pull request
 
@@ -32,9 +32,10 @@ Maintain a modular public-facing holdings site for Branch Off Holdings with a cl
 3. Link the new route from its parent overview page and from any relevant homepage preview card.
 4. Extend `scripts/validate_site.py` so the new route is required and checked.
 5. Run `python scripts/validate_site.py` before committing.
-6. Deploy through the existing Cloudflare workflow after validation passes.
-7. Keep shared styling in `public/styles.css` and shared behavior in `public/site.js`.
-8. Keep deployment configuration in `wrangler.jsonc`.
+6. Deploy branch validation to the isolated preview Worker with `npx --yes wrangler deploy --env preview`.
+7. Deploy production intentionally with `npx --yes wrangler deploy --env ""` only after merge-ready review.
+8. Keep shared styling in `public/styles.css` and shared behavior in `public/site.js`.
+9. Keep deployment configuration in `wrangler.jsonc`.
 
 ## Risks
 
@@ -48,4 +49,5 @@ Maintain a modular public-facing holdings site for Branch Off Holdings with a cl
 - Nested entity and category routes are already live, so future expansions can follow a proven directory pattern instead of introducing a second architecture.
 - Shared CSS and JS keep the static site maintainable without adding framework dependencies.
 - Cloudflare clean URL handling lets directory routes behave like `/about`, `/companies`, `/assets`, `/licensing`, and `/contact` while keeping repo internals outside the public asset surface.
+- The dedicated preview environment lets branch deploys use `odb-holdings-site-preview` instead of mutating the live production worker during review.
 - The validator prevents regressions back into a long mixed homepage or placeholder sprawl.

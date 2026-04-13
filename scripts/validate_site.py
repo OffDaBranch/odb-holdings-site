@@ -166,6 +166,9 @@ def main() -> int:
             '"html_handling": "drop-trailing-slash"',
             '"not_found_handling": "404-page"',
             '"compatibility_date": "2026-04-12"',
+            '"env": {',
+            '"preview": {',
+            '"workers_dev": true',
         ]:
             if snippet not in wrangler:
                 errors.append(f"wrangler.jsonc must contain {snippet!r}.")
