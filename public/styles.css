@@ -215,7 +215,8 @@ p {
 .metric,
 .contact-panel,
 .cta-band,
-.signal-item {
+.signal-item,
+.image-card {
   border: 1px solid var(--line);
   border-radius: 28px;
   box-shadow: var(--shadow);
@@ -244,7 +245,8 @@ p {
 .notice,
 .form-disclaimer,
 .contact-status,
-.response-note {
+.response-note,
+.image-copy p {
   color: var(--text-soft);
 }
 
@@ -371,7 +373,8 @@ p {
 .card-grid-2,
 .card-grid-3,
 .card-grid-4,
-.metric-strip {
+.metric-strip,
+.image-grid {
   display: grid;
   gap: 18px;
 }
@@ -382,7 +385,8 @@ p {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.card-grid-3 {
+.card-grid-3,
+.image-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -392,9 +396,33 @@ p {
 
 .card,
 .feature-card,
-.metric {
+.metric,
+.image-card {
   padding: 1.2rem;
   background: rgba(18, 8, 20, 0.76);
+}
+
+.image-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.image-frame {
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(212, 175, 55, 0.14);
+  background: rgba(8, 5, 10, 0.86);
+}
+
+.image-frame img {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+}
+
+.image-copy {
+  display: grid;
+  gap: 0.65rem;
 }
 
 .card-label,
@@ -636,7 +664,8 @@ textarea {
   .card-grid-4,
   .metric-strip,
   .form-grid,
-  .footer-grid {
+  .footer-grid,
+  .image-grid {
     grid-template-columns: 1fr;
   }
 

@@ -1,0 +1,50 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#120814"/>
+      <stop offset="1" stop-color="#060308"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="250" y1="200" x2="1340" y2="930" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7C3AED" stop-opacity="0.4"/>
+      <stop offset="0.45" stop-color="#F97316" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#D4AF37" stop-opacity="0.18"/>
+    </linearGradient>
+    <filter id="glow" x="0" y="0" width="1600" height="1100" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1100" rx="36" fill="url(#bg)"/>
+  <rect x="180" y="120" width="1240" height="860" rx="34" fill="#0C0810" stroke="#D4AF37" stroke-opacity="0.18"/>
+  <rect x="180" y="120" width="1240" height="860" rx="34" fill="url(#accent)"/>
+
+  <g filter="url(#glow)" opacity="0.28">
+    <circle cx="800" cy="540" r="250" fill="#7C3AED"/>
+    <circle cx="1030" cy="430" r="180" fill="#F97316"/>
+  </g>
+
+  <text x="260" y="212" fill="#D4AF37" font-family="Manrope, Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="6">TRAPCOTTON / BRAND ASSET</text>
+  <text x="260" y="300" fill="#F7F3EC" font-family="Cormorant Garamond, Georgia, serif" font-size="76" font-weight="600">Public signal under retained control</text>
+  <text x="260" y="352" fill="#F7F3EC" fill-opacity="0.72" font-family="Manrope, Arial, sans-serif" font-size="24" font-weight="600">Apparel IP • release logic • licensing adjacency • digital property</text>
+
+  <g>
+    <rect x="260" y="420" width="540" height="410" rx="30" fill="#0F0A14" stroke="#D4AF37" stroke-opacity="0.2"/>
+    <text x="330" y="560" fill="#D4AF37" font-family="Cormorant Garamond, Georgia, serif" font-size="148" font-weight="600">TC</text>
+    <text x="330" y="645" fill="#F7F3EC" font-family="Manrope, Arial, sans-serif" font-size="38" font-weight="800" letter-spacing="10">TRAPCOTTON</text>
+    <text x="330" y="698" fill="#F7F3EC" fill-opacity="0.72" font-family="Manrope, Arial, sans-serif" font-size="22">Controlled releases • cultural positioning • future rights packaging</text>
+    <text x="330" y="748" fill="#D4AF37" font-family="Manrope, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="5">856 / 39.95 N / 75.12 W</text>
+  </g>
+
+  <g>
+    <rect x="860" y="420" width="480" height="190" rx="24" fill="#0F0A14" stroke="#D4AF37" stroke-opacity="0.2"/>
+    <text x="900" y="476" fill="#D4AF37" font-family="Manrope, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="5">FUNCTION</text>
+    <text x="900" y="548" fill="#F7F3EC" font-family="Cormorant Garamond, Georgia, serif" font-size="56" font-weight="600">Brand equity</text>
+    <text x="900" y="590" fill="#F7F3EC" fill-opacity="0.72" font-family="Manrope, Arial, sans-serif" font-size="22">Public-facing lane that strengthens the portfolio narrative and deal surface</text>
+  </g>
+
+  <g>
+    <rect x="860" y="640" width="480" height="190" rx="24" fill="#0F0A14" stroke="#D4AF37" stroke-opacity="0.2"/>
+    <text x="900" y="696" fill="#D4AF37" font-family="Manrope, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="5">VALUE PATH</text>
+    <text x="900" y="768" fill="#F7F3EC" font-family="Cormorant Garamond, Georgia, serif" font-size="56" font-weight="600">Commerce + licensing</text>
+    <text x="900" y="810" fill="#F7F3EC" fill-opacity="0.72" font-family="Manrope, Arial, sans-serif" font-size="22">Monetize through drops, partnerships, and selective rights use without losing the control layer</text>
+  </g>
+</svg>
