@@ -1,0 +1,68 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#120814"/>
+      <stop offset="1" stop-color="#060308"/>
+    </linearGradient>
+    <linearGradient id="card" x1="300" y1="180" x2="1310" y2="920" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#16101C"/>
+      <stop offset="1" stop-color="#0A0710"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="240" y1="220" x2="1360" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7C3AED" stop-opacity="0.45"/>
+      <stop offset="0.55" stop-color="#F97316" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#D4AF37" stop-opacity="0.18"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1100" rx="36" fill="url(#bg)"/>
+  <rect x="170" y="120" width="1260" height="860" rx="34" fill="url(#card)" stroke="#D4AF37" stroke-opacity="0.18"/>
+  <rect x="170" y="120" width="1260" height="860" rx="34" fill="url(#accent)"/>
+
+  <g opacity="0.14">
+    <path d="M240 250H1360" stroke="#F7F3EC"/>
+    <path d="M240 410H1360" stroke="#F7F3EC"/>
+    <path d="M240 570H1360" stroke="#F7F3EC"/>
+    <path d="M240 730H1360" stroke="#F7F3EC"/>
+    <path d="M240 890H1360" stroke="#F7F3EC"/>
+    <path d="M430 200V900" stroke="#F7F3EC"/>
+    <path d="M735 200V900" stroke="#F7F3EC"/>
+    <path d="M1040 200V900" stroke="#F7F3EC"/>
+  </g>
+
+  <text x="260" y="212" fill="#D4AF37" font-family="Manrope, Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="6">BRANCHOPS / OPERATING SYSTEMS</text>
+  <text x="260" y="300" fill="#F7F3EC" font-family="Cormorant Garamond, Georgia, serif" font-size="76" font-weight="600">Control surfaces for the holdco</text>
+  <text x="260" y="352" fill="#F7F3EC" fill-opacity="0.72" font-family="Manrope, Arial, sans-serif" font-size="24" font-weight="600">Inquiry routing • approvals • asset visibility • execution memory</text>
+
+  <g>
+    <rect x="260" y="420" width="300" height="180" rx="24" fill="#0F0A14" stroke="#D4AF37" stroke-opacity="0.22"/>
+    <text x="294" y="470" fill="#D4AF37" font-family="Manrope, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="5">INPUT</text>
+    <text x="294" y="533" fill="#F7F3EC" font-family="Cormorant Garamond, Georgia, serif" font-size="54" font-weight="600">Intake</text>
+    <text x="294" y="572" fill="#F7F3EC" fill-opacity="0.72" font-family="Manrope, Arial, sans-serif" font-size="22">Licensing, media, partnership, and operations requests</text>
+  </g>
+
+  <g>
+    <rect x="650" y="420" width="300" height="180" rx="24" fill="#0F0A14" stroke="#D4AF37" stroke-opacity="0.22"/>
+    <text x="684" y="470" fill="#D4AF37" font-family="Manrope, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="5">CONTROL</text>
+    <text x="684" y="533" fill="#F7F3EC" font-family="Cormorant Garamond, Georgia, serif" font-size="54" font-weight="600">Gates</text>
+    <text x="684" y="572" fill="#F7F3EC" fill-opacity="0.72" font-family="Manrope, Arial, sans-serif" font-size="22">Review, qualification, scope, and next-step logic</text>
+  </g>
+
+  <g>
+    <rect x="1040" y="420" width="300" height="180" rx="24" fill="#0F0A14" stroke="#D4AF37" stroke-opacity="0.22"/>
+    <text x="1074" y="470" fill="#D4AF37" font-family="Manrope, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="5">OUTPUT</text>
+    <text x="1074" y="533" fill="#F7F3EC" font-family="Cormorant Garamond, Georgia, serif" font-size="54" font-weight="600">Routing</text>
+    <text x="1074" y="572" fill="#F7F3EC" fill-opacity="0.72" font-family="Manrope, Arial, sans-serif" font-size="22">Qualified conversations move into the correct lane</text>
+  </g>
+
+  <path d="M560 510H650" stroke="#D4AF37" stroke-opacity="0.4" stroke-width="4" stroke-linecap="round"/>
+  <path d="M950 510H1040" stroke="#D4AF37" stroke-opacity="0.4" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="605" cy="510" r="7" fill="#D4AF37"/>
+  <circle cx="995" cy="510" r="7" fill="#D4AF37"/>
+
+  <g>
+    <rect x="260" y="690" width="1080" height="210" rx="28" fill="#0D0912" stroke="#D4AF37" stroke-opacity="0.2"/>
+    <text x="300" y="746" fill="#D4AF37" font-family="Manrope, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="5">WHY IT MATTERS</text>
+    <text x="300" y="818" fill="#F7F3EC" font-family="Cormorant Garamond, Georgia, serif" font-size="58" font-weight="600">One owned system can support multiple revenue lanes</text>
+    <text x="300" y="860" fill="#F7F3EC" fill-opacity="0.72" font-family="Manrope, Arial, sans-serif" font-size="24">Instead of rebuilding process every time, the holdco compounds operational leverage through shared workflow infrastructure.</text>
+  </g>
+</svg>
