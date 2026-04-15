@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://big.branchoffholdings.com/sitemap.xml
+Sitemap: https://branchoffholdings.com/sitemap.xml
