@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Leads Dashboard | Branch Off Holdings</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#120814">
+  <link rel="canonical" href="https://branchoffholdings.com/admin/leads-dashboard">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23120814'/%3E%3Cpath d='M14 48V16h18c10 0 17 5 17 13 0 7-5 11-12 13l13 6H34l-12-6h-2v6H14z' fill='%23d4af37'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/admin/leads-dashboard.js" defer></script>
+</head>
+<body data-page="admin-leads">
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="brand-lockup" href="/" aria-label="Branch Off Holdings home"><span class="brand-dot"></span><span>Branch Off Holdings</span></a>
+      <nav class="header-links" aria-label="Admin navigation">
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <section class="page-hero">
+      <div class="page-hero-grid shell">
+        <div class="panel reveal visible">
+          <p class="eyebrow">BranchOps Admin</p>
+          <h1>Lead intake dashboard.</h1>
+          <p>Review qualified website inquiries, routing recommendations, urgency, and deal-queue candidates from the protected intake API.</p>
+        </div>
+        <aside class="panel reveal visible">
+          <form class="admin-auth" data-admin-auth>
+            <label for="admin-token">Admin bearer token</label>
+            <div class="admin-auth-row">
+              <input id="admin-token" type="password" name="token" autocomplete="off" required>
+              <button class="button button-primary" type="submit">Load leads</button>
+            </div>
+            <p class="form-disclaimer">The token is used for this browser session only and is not stored by the page.</p>
+            <p class="contact-status" data-admin-status aria-live="polite"></p>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="admin-toolbar">
+        <div>
+          <p class="eyebrow">Lead Queue</p>
+          <h2>New inbound opportunities.</h2>
+        </div>
+        <div class="button-row">
+          <button class="button button-secondary" type="button" data-refresh-leads>Refresh</button>
+          <button class="button button-primary" type="button" data-export-csv>Export CSV</button>
+        </div>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Submitted</th>
+              <th>Lane</th>
+              <th>Lead</th>
+              <th>Score</th>
+              <th>Urgency</th>
+              <th>Next Action</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody data-leads-body>
+            <tr>
+              <td colspan="7">Enter the admin bearer token to load leads.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-copy">
+        <strong>Branch Off Holdings</strong>
+        <p>Protected BranchOps intake review surface for website-originated opportunities.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

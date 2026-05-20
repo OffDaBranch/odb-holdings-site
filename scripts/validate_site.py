@@ -20,7 +20,24 @@ REQUIRED_PATHS = [
     PUBLIC / "assets" / "digital-property" / "index.html",
     PUBLIC / "licensing" / "index.html",
     PUBLIC / "contact" / "index.html",
+    PUBLIC / "admin" / "leads-dashboard" / "index.html",
+    PUBLIC / "admin" / "leads-dashboard.js",
     PUBLIC / "privacy" / "index.html",
+    ROOT / "src" / "features" / "intake" / "intake.schema.ts",
+    ROOT / "src" / "features" / "intake" / "intake.routes.ts",
+    ROOT / "src" / "features" / "intake" / "intake.service.ts",
+    ROOT / "src" / "features" / "intake" / "intake.ai.ts",
+    ROOT / "src" / "features" / "intake" / "intake.types.ts",
+    ROOT / "src" / "features" / "intake" / "intake.sync.ts",
+    ROOT / "workers" / "intake-api" / "index.ts",
+    ROOT / "migrations" / "0001_create_intake_tables.sql",
+    ROOT / "docs" / "WEBSITE_INQUIRY_INTAKE.md",
+    ROOT / "docs" / "INTAKE_OS_PRODUCT_SPEC.md",
+    ROOT / "docs" / "DATABASE_SCHEMA.md",
+    ROOT / "docs" / "API_ROUTES.md",
+    ROOT / "docs" / "ASSET_REGISTRATION.md",
+    ROOT / "docs" / "DEPLOYMENT.md",
+    ROOT / "tests" / "intake.test.ts",
 ]
 
 PAGE_EXPECTATIONS = {
@@ -85,9 +102,17 @@ PAGE_EXPECTATIONS = {
         'data-contact-form',
         "Partnerships",
         "Licensing",
+        "Grant / Vendor Readiness",
+        "consent_checkbox",
+    ],
+    PUBLIC / "admin" / "leads-dashboard" / "index.html": [
+        "Lead intake dashboard.",
+        "data-admin-auth",
+        "data-export-csv",
     ],
     PUBLIC / "privacy" / "index.html": [
         "How inquiry data is handled.",
+        "Human review",
         "admin@branchoffholdings.com",
     ],
     PUBLIC / "404.html": [
@@ -116,9 +141,20 @@ FORBIDDEN_PATHS = [
 ]
 
 ALLOWED_TOP_LEVEL = {
+    ".gitignore",
     "README.md",
+    "docs",
+    "migrations",
+    "node_modules",
+    "package.json",
+    "package-lock.json",
     "public",
     "scripts",
+    "src",
+    "tests",
+    "tsconfig.json",
+    "vitest.config.ts",
+    "workers",
     "wrangler.jsonc",
 }
 
@@ -153,9 +189,16 @@ def main() -> int:
     script = PUBLIC / "site.js"
     if script.exists():
         js = script.read_text(encoding="utf-8")
-        for snippet in ['"/api/public/intake/contact"', "data-contact-form", "IntersectionObserver"]:
+        for snippet in ['"/api/intake"', "data-contact-form", "IntersectionObserver", "consent_checkbox"]:
             if snippet not in js:
                 errors.append(f"public/site.js must contain {snippet!r}.")
+
+    admin_script = PUBLIC / "admin" / "leads-dashboard.js"
+    if admin_script.exists():
+        js = admin_script.read_text(encoding="utf-8")
+        for snippet in ["/api/admin/leads", "/api/admin/export.csv", "textContent"]:
+            if snippet not in js:
+                errors.append(f"public/admin/leads-dashboard.js must contain {snippet!r}.")
 
     if not WRANGLER.exists():
         errors.append("wrangler.jsonc is missing.")
@@ -163,9 +206,13 @@ def main() -> int:
         wrangler = WRANGLER.read_text(encoding="utf-8")
         for snippet in [
             '"directory": "./public"',
+            '"main": "workers/intake-api/index.ts"',
+            '"binding": "ASSETS"',
+            '"/api/*"',
+            '"d1_databases": [',
             '"html_handling": "drop-trailing-slash"',
             '"not_found_handling": "404-page"',
-            '"compatibility_date": "2026-04-12"',
+            '"compatibility_date": "2026-05-20"',
             '"env": {',
             '"preview": {',
             '"workers_dev": true',
