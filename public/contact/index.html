@@ -43,7 +43,7 @@
         <div class="panel reveal">
           <p class="eyebrow">Contact</p>
           <h1>Route inbound deal flow through one controlled intake path.</h1>
-          <p>Use this page for partnerships, licensing, operating systems, media requests, and general inquiries. The objective is a clean intake system instead of mixed conversations spread across disconnected channels.</p>
+          <p>Use this page for partnerships, licensing, operating systems, education programs, contractor services, AI automation, media requests, investment conversations, and general inquiries. The objective is a clean intake system instead of mixed conversations spread across disconnected channels.</p>
         </div>
         <aside class="panel reveal">
           <div class="contact-lanes">
@@ -62,6 +62,10 @@
             <div class="lane-item">
               <strong>Media</strong>
               Interviews, press, speaking, or narrative requests tied to the holdings story or portfolio.
+            </div>
+            <div class="lane-item">
+              <strong>Institution and service lanes</strong>
+              Grant readiness, curriculum, contractor/property services, AI automation, and investment/acquisition conversations.
             </div>
           </div>
         </aside>
@@ -88,23 +92,37 @@
             <div class="form-grid">
               <input type="text" name="name" placeholder="Your name" required>
               <input type="email" name="email" placeholder="Your email" required>
-              <input type="text" name="companyName" placeholder="Company or entity">
+              <input type="text" name="company" placeholder="Company or entity">
               <input type="tel" name="phone" placeholder="Phone number">
-              <select name="inquiryType" aria-label="Inquiry type">
-                <option value="partnership">Partnership</option>
-                <option value="licensing">Licensing</option>
-                <option value="consulting">Operating systems / buildouts</option>
-                <option value="media">Media</option>
-                <option value="general">General inquiry</option>
+              <select name="inquiry_type" aria-label="Inquiry type" required>
+                <option value="Partnership">Partnership</option>
+                <option value="Licensing">Licensing</option>
+                <option value="Operating Systems / Buildouts">Operating Systems / Buildouts</option>
+                <option value="Media">Media</option>
+                <option value="General Inquiry">General Inquiry</option>
+                <option value="Grant / Vendor Readiness">Grant / Vendor Readiness</option>
+                <option value="Curriculum / Education Program">Curriculum / Education Program</option>
+                <option value="Contractor / Property Services">Contractor / Property Services</option>
+                <option value="AI Automation">AI Automation</option>
+                <option value="Investment / Acquisition">Investment / Acquisition</option>
               </select>
               <div class="honeypot" aria-hidden="true">
                 <label for="holdings-contact-website">Leave this field empty</label>
                 <input type="text" id="holdings-contact-website" name="website" tabindex="-1" autocomplete="off">
               </div>
             </div>
+            <input type="hidden" name="source_url">
+            <input type="hidden" name="utm_source">
+            <input type="hidden" name="utm_medium">
+            <input type="hidden" name="utm_campaign">
+            <input type="hidden" name="submitted_at">
             <textarea class="field-span-full" name="message" placeholder="Describe the opportunity, request, or asset you want to discuss." required></textarea>
+            <label class="checkbox-row">
+              <input type="checkbox" name="consent_checkbox" required>
+              <span>I consent to Branch Off Holdings storing this inquiry and contacting me about this request.</span>
+            </label>
             <button type="submit" class="button button-primary">Send inquiry</button>
-            <p class="form-disclaimer">By submitting, you agree to be contacted about your request.</p>
+            <p class="form-disclaimer">Submitted inquiries are reviewed by a person. AI-assisted scoring may be used for routing, but it does not guarantee funding, approval, or a business relationship. See the <a href="/privacy">privacy notice</a>.</p>
             <p class="contact-status" data-contact-status aria-live="polite"></p>
           </form>
         </div>

@@ -1,0 +1,22 @@
+{
+  "name": "odb-holdings-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate_site.mjs",
+    "build": "npm run validate && tsc --noEmit",
+    "dev": "wrangler dev --local --port 8787",
+    "test": "vitest run",
+    "deploy:dry-run": "wrangler deploy --dry-run"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260520.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.13",
+    "wrangler": "^4.15.0"
+  },
+  "overrides": {
+    "ws": "^8.20.1"
+  }
+}

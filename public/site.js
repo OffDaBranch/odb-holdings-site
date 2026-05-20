@@ -3,7 +3,7 @@ const menuToggle = document.getElementById("menu-toggle");
 const headerLinks = document.getElementById("header-links");
 const contactForm = document.querySelector("[data-contact-form]");
 const contactStatus = document.querySelector("[data-contact-status]");
-const publicIntakePath = "/api/public/intake/contact";
+const publicIntakePath = "/api/intake";
 
 function setMenuState(isOpen) {
   if (!headerLinks || !menuToggle) {
@@ -23,11 +23,6 @@ function resolvePublicIntakeEndpoint() {
 
   if (explicitBaseUrl) {
     return `${explicitBaseUrl.replace(/\/$/, "")}${publicIntakePath}`;
-  }
-
-  const host = window.location.hostname;
-  if (host === "localhost" || host === "127.0.0.1") {
-    return `http://localhost:4000${publicIntakePath}`;
   }
 
   return `${window.location.origin}${publicIntakePath}`;
@@ -64,6 +59,29 @@ if (!prefersReducedMotion && "IntersectionObserver" in window) {
 }
 
 if (contactForm && contactStatus) {
+  const sourceUrlField = contactForm.querySelector('input[name="source_url"]');
+  const submittedAtField = contactForm.querySelector('input[name="submitted_at"]');
+  const utmSourceField = contactForm.querySelector('input[name="utm_source"]');
+  const utmMediumField = contactForm.querySelector('input[name="utm_medium"]');
+  const utmCampaignField = contactForm.querySelector('input[name="utm_campaign"]');
+  const searchParams = new URLSearchParams(window.location.search);
+
+  if (sourceUrlField) {
+    sourceUrlField.value = window.location.href;
+  }
+
+  if (utmSourceField) {
+    utmSourceField.value = searchParams.get("utm_source") || "";
+  }
+
+  if (utmMediumField) {
+    utmMediumField.value = searchParams.get("utm_medium") || "";
+  }
+
+  if (utmCampaignField) {
+    utmCampaignField.value = searchParams.get("utm_campaign") || "";
+  }
+
   contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -78,15 +96,24 @@ if (contactForm && contactStatus) {
     }
 
     try {
+      if (submittedAtField) {
+        submittedAtField.value = new Date().toISOString();
+      }
+
       const formData = new FormData(contactForm);
       const payload = {
-        sourceSite: "odb-holdings-site",
-        inquiryType: String(formData.get("inquiryType") ?? "general").trim() || "general",
         name: String(formData.get("name") ?? "").trim(),
         email: String(formData.get("email") ?? "").trim(),
-        companyName: String(formData.get("companyName") ?? "").trim() || null,
         phone: String(formData.get("phone") ?? "").trim() || null,
+        company: String(formData.get("company") ?? "").trim() || null,
+        inquiry_type: String(formData.get("inquiry_type") ?? "General Inquiry").trim() || "General Inquiry",
         message: String(formData.get("message") ?? "").trim(),
+        source_url: String(formData.get("source_url") ?? window.location.href).trim(),
+        utm_source: String(formData.get("utm_source") ?? "").trim() || null,
+        utm_medium: String(formData.get("utm_medium") ?? "").trim() || null,
+        utm_campaign: String(formData.get("utm_campaign") ?? "").trim() || null,
+        submitted_at: String(formData.get("submitted_at") ?? "").trim() || new Date().toISOString(),
+        consent_checkbox: formData.get("consent_checkbox") === "on",
         website: String(formData.get("website") ?? "").trim(),
       };
 
