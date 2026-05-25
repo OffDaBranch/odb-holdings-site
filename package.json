@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate_site.mjs",
-    "build": "npm run validate && tsc --noEmit",
+    "check:d1-bindings": "node scripts/check_wrangler_d1_ids.mjs",
+    "build": "npm run validate && npm run check:d1-bindings && tsc --noEmit",
     "dev": "wrangler dev --local --port 8787",
     "test": "vitest run",
-    "deploy:dry-run": "wrangler deploy --dry-run"
+    "deploy:dry-run": "npm run check:d1-bindings && wrangler deploy --dry-run",
+    "deploy:preview": "npm run check:d1-bindings && wrangler deploy --env preview",
+    "deploy:production": "npm run check:d1-bindings && wrangler deploy"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260520.0",
