@@ -6,12 +6,13 @@
   "scripts": {
     "validate": "node scripts/validate_site.mjs",
     "check:d1-bindings": "node scripts/check_wrangler_d1_ids.mjs",
-    "build": "npm run validate && npm run check:d1-bindings && tsc --noEmit",
+    "generate:deploy-config": "node scripts/generate_wrangler_config.mjs",
+    "build": "npm run validate && tsc --noEmit",
     "dev": "wrangler dev --local --port 8787",
     "test": "vitest run",
-    "deploy:dry-run": "npm run check:d1-bindings && wrangler deploy --dry-run",
-    "deploy:preview": "npm run check:d1-bindings && wrangler deploy --env preview",
-    "deploy:production": "npm run check:d1-bindings && wrangler deploy"
+    "deploy:dry-run": "npm run generate:deploy-config && npm run check:d1-bindings -- --config wrangler.generated.jsonc && wrangler deploy --config wrangler.generated.jsonc --env \"\" --dry-run",
+    "deploy:preview": "npm run generate:deploy-config && npm run check:d1-bindings -- --config wrangler.generated.jsonc && wrangler deploy --config wrangler.generated.jsonc --env preview",
+    "deploy:production": "npm run generate:deploy-config && npm run check:d1-bindings -- --config wrangler.generated.jsonc && wrangler deploy --config wrangler.generated.jsonc --env \"\""
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260520.0",

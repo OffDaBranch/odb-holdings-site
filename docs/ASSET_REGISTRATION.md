@@ -64,6 +64,35 @@ Internal-only fields:
 - Last successful deployment timestamp
 - Last migration timestamp
 
+## Airtable Registration Instructions
+
+Create or update an internal infrastructure deployment-control record with:
+
+- Asset name: `odb-holdings-site` Worker and intake D1 databases.
+- Repository: `OffDaBranch/odb-holdings-site`.
+- Control decision: generated deploy-time Wrangler config from protected environment values.
+- Public configuration status: tracked `wrangler.jsonc` intentionally retains placeholder IDs.
+- Required protected-value names: `D1_PRODUCTION_DATABASE_ID` and `D1_PREVIEW_DATABASE_ID`.
+- Deployment commands: `npm run deploy:dry-run` and `npm run deploy:production`.
+- Last validation result, approval owner, incident/PR link, and last deployment timestamp.
+
+Store actual D1 database IDs, account identifiers, bearer tokens, and API keys only in restricted
+fields or the approved vault. Do not place those values in an Airtable share view, export, public
+document, GitHub issue, or PR comment.
+
+## Notion Registration Instructions
+
+Create or update the internal deployment SOP page with:
+
+- The generated-config decision and why the public repository retains placeholders.
+- The operator sequence in `docs/DEPLOYMENT.md`.
+- Links to the repository, relevant PR/incident, Airtable control record, and approved vault entry.
+- The responsible reviewer and the status of manual Cloudflare verification.
+
+Document secret names and custody/rotation ownership only. Do not paste real credentials,
+Cloudflare account IDs, or D1 database IDs into the page unless access is explicitly restricted
+and that recording is approved under the company credential policy.
+
 ## Digital Asset Register Entry
 
 Asset category: Digital infrastructure / Cloudflare Worker / D1 database
@@ -109,9 +138,9 @@ Root cause: `DB` binding referenced placeholder D1 `database_id`
 Corrective action:
 
 1. Run `npx wrangler d1 list` under the correct Cloudflare account.
-2. Copy the real ID for `branchops-intake`.
-3. Replace the all-zero placeholder in `wrangler.jsonc`.
-4. Run `npm run check:d1-bindings`.
+2. Put the real IDs into the protected deployment values for the relevant environment.
+3. Leave the all-zero placeholders in the public `wrangler.jsonc` template.
+4. Run `npm run generate:deploy-config` and `npm run check:d1-bindings -- --config wrangler.generated.jsonc`.
 5. Run `npm run build` and `npm run test`.
 6. Redeploy with `npm run deploy:production`.
 7. Update Airtable and Notion records with the corrected internal deployment inventory.

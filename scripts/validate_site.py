@@ -142,6 +142,7 @@ FORBIDDEN_PATHS = [
 
 ALLOWED_TOP_LEVEL = {
     ".gitignore",
+    "AGENTS.md",
     "README.md",
     "docs",
     "migrations",

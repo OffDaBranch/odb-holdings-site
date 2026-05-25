@@ -73,6 +73,7 @@ const forbiddenPaths = [
 
 const allowedTopLevel = new Set([
   ".gitignore",
+  "AGENTS.md",
   "README.md",
   "docs",
   "migrations",

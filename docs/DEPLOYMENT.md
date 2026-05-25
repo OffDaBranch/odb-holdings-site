@@ -24,13 +24,11 @@ Required control rule:
 
 `OffDaBranch/odb-holdings-site` is currently a public repository. If real D1 `database_id` values are committed into `wrangler.jsonc`, those IDs become public repository data.
 
-Decision required before final deployment fix:
-
-1. Make the repository private and commit the real D1 database IDs into `wrangler.jsonc`; or
-2. Keep the repository public and accept that D1 database IDs in `wrangler.jsonc` are visible; or
-3. Move deployment to a controlled CI path that generates the deploy-time Wrangler config from internal secrets and does not commit real IDs to the public repo.
-
-Until one of these options is selected, the repository should keep placeholder IDs and the validation guard should block deployment.
+Selected control: option 3. This public repository keeps all-zero placeholders in the tracked
+`wrangler.jsonc` template. Deployment generates root-level `wrangler.generated.jsonc`
+from protected environment values; that file is ignored by git and remains beside the template
+so Wrangler resolves relative source and asset paths correctly. Do not commit the generated
+file or paste its IDs into issues, PRs, Airtable/Notion public views, or public documentation.
 
 ## D1 Setup
 
@@ -52,47 +50,33 @@ Create the preview database only if preview deploys should use a separate store 
 npx wrangler d1 create branchops-intake-preview
 ```
 
-Update `wrangler.jsonc`:
+Store the database IDs as protected CI/environment values, not tracked files:
 
-```jsonc
-"d1_databases": [
-  {
-    "binding": "DB",
-    "database_name": "branchops-intake",
-    "database_id": "REAL_PRODUCTION_D1_DATABASE_ID",
-    "migrations_dir": "./migrations"
-  }
-]
-```
+| Protected value | D1 database |
+| --- | --- |
+| `D1_PRODUCTION_DATABASE_ID` | `branchops-intake` |
+| `D1_PREVIEW_DATABASE_ID` | `branchops-intake-preview` |
 
-For preview:
-
-```jsonc
-"env": {
-  "preview": {
-    "workers_dev": true,
-    "name": "odb-holdings-site-preview",
-    "d1_databases": [
-      {
-        "binding": "DB",
-        "database_name": "branchops-intake-preview",
-        "database_id": "REAL_PREVIEW_D1_DATABASE_ID",
-        "migrations_dir": "./migrations"
-      }
-    ]
-  }
-}
-```
+`npm run generate:deploy-config` requires both values, validates their UUID format, and creates
+the ignored deploy-only Wrangler config. The generator does not print the injected values.
 
 ## D1 Binding Validation
 
-Before every deploy, run:
+The tracked public template must fail this check while it holds placeholders:
 
 ```bash
 npm run check:d1-bindings
 ```
 
-This checks every configured D1 binding and fails if:
+For a controlled deployment session after protected values are supplied, validate the generated
+configuration explicitly:
+
+```bash
+npm run generate:deploy-config
+npm run check:d1-bindings -- --config wrangler.generated.jsonc
+```
+
+The check examines every configured D1 binding in the selected config and fails if:
 
 - `database_id` is missing.
 - `database_id` is the all-zero placeholder.
@@ -124,11 +108,23 @@ npx wrangler secret put OPENAI_API_KEY
 
 ## Validation
 
+Use these commands in this order. `npx wrangler d1 list` requires authenticated Cloudflare access
+and is used only to populate the protected values. In a public checkout,
+`npm run check:d1-bindings` is expected to fail on the tracked placeholder template; this is the
+repository leak-prevention guard. `deploy:dry-run` and `deploy:production` generate and validate
+the ignored configuration and require both protected values to be present.
+
 ```bash
+npx wrangler d1 list
+npm run check:d1-bindings
 npm run build
 npm run test
 npm run deploy:dry-run
+npm run deploy:production
 ```
+
+Do not run `npm run deploy:production` as a validation-only step unless a production deployment
+is authorized. It performs the production deploy after generation and validation.
 
 ## Preview Deploy
 
@@ -145,10 +141,14 @@ npm run deploy:production
 Production deploy currently maps to:
 
 ```bash
-npx wrangler deploy
+npm run generate:deploy-config
+npm run check:d1-bindings -- --config wrangler.generated.jsonc
+npx wrangler deploy --config wrangler.generated.jsonc --env ""
 ```
 
-Do not add `--env preview` for production. Add a formal `env.production` block only if the repository intentionally switches to environment-scoped production configuration.
+Do not add `--env preview` for production. Add a formal `env.production` block only if the
+repository intentionally switches to environment-scoped production configuration, and extend the
+generator mapping before doing so.
 
 ## Incident Recovery Procedure
 
@@ -157,9 +157,9 @@ If Cloudflare reports a D1 binding failure:
 1. Stop redeploy attempts.
 2. Run `npx wrangler d1 list` locally under the correct Cloudflare account.
 3. Confirm the target database name: `branchops-intake` for production or `branchops-intake-preview` for preview.
-4. Select the public/private/CI deployment-control option for D1 ID handling.
-5. Replace the placeholder `database_id` in the appropriate deploy-time Wrangler config.
-6. Run `npm run check:d1-bindings`.
+4. Use the selected protected-value generated-config control for D1 ID handling.
+5. Correct `D1_PRODUCTION_DATABASE_ID` or `D1_PREVIEW_DATABASE_ID` in the protected environment.
+6. Run `npm run generate:deploy-config` and `npm run check:d1-bindings -- --config wrangler.generated.jsonc`.
 7. Run `npm run build` and `npm run test`.
 8. Apply migrations if the database is new or schema changed.
 9. Deploy with the correct command.
