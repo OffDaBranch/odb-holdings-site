@@ -156,6 +156,7 @@ ALLOWED_TOP_LEVEL = {
     "tsconfig.json",
     "vitest.config.ts",
     "workers",
+    "wrangler.generated.jsonc",
     "wrangler.jsonc",
 }
 

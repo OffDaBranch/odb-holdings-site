@@ -87,6 +87,7 @@ const allowedTopLevel = new Set([
   "tsconfig.json",
   "vitest.config.ts",
   "workers",
+  "wrangler.generated.jsonc",
   "wrangler.jsonc",
 ]);
 
