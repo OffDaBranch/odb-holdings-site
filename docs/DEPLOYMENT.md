@@ -17,8 +17,20 @@ Required control rule:
 
 - Production deploys use the top-level Wrangler configuration unless a dedicated `production` environment is added later.
 - Preview deploys use `--env preview` and must have a separate preview D1 database ID.
-- Do not store Cloudflare account IDs, production database IDs, bearer tokens, or recovery credentials in public documentation.
+- Do not store Cloudflare account IDs, bearer tokens, API keys, or recovery credentials in public documentation.
 - Store sensitive deployment inventory in Airtable, Notion, or the internal company vault.
+
+## Public Repository Exposure Rule
+
+`OffDaBranch/odb-holdings-site` is currently a public repository. If real D1 `database_id` values are committed into `wrangler.jsonc`, those IDs become public repository data.
+
+Decision required before final deployment fix:
+
+1. Make the repository private and commit the real D1 database IDs into `wrangler.jsonc`; or
+2. Keep the repository public and accept that D1 database IDs in `wrangler.jsonc` are visible; or
+3. Move deployment to a controlled CI path that generates the deploy-time Wrangler config from internal secrets and does not commit real IDs to the public repo.
+
+Until one of these options is selected, the repository should keep placeholder IDs and the validation guard should block deployment.
 
 ## D1 Setup
 
@@ -145,9 +157,10 @@ If Cloudflare reports a D1 binding failure:
 1. Stop redeploy attempts.
 2. Run `npx wrangler d1 list` locally under the correct Cloudflare account.
 3. Confirm the target database name: `branchops-intake` for production or `branchops-intake-preview` for preview.
-4. Replace the placeholder `database_id` in `wrangler.jsonc`.
-5. Run `npm run check:d1-bindings`.
-6. Run `npm run build` and `npm run test`.
-7. Apply migrations if the database is new or schema changed.
-8. Deploy with the correct command.
-9. Log the incident and corrected deployment record in Airtable and Notion.
+4. Select the public/private/CI deployment-control option for D1 ID handling.
+5. Replace the placeholder `database_id` in the appropriate deploy-time Wrangler config.
+6. Run `npm run check:d1-bindings`.
+7. Run `npm run build` and `npm run test`.
+8. Apply migrations if the database is new or schema changed.
+9. Deploy with the correct command.
+10. Log the incident and corrected deployment record in Airtable and Notion.
