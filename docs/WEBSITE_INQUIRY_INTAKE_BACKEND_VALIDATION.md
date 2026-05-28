@@ -51,8 +51,8 @@ npx wrangler d1 execute branchops-intake --remote --command "SELECT id, lead_id,
 Result: Pass
 
 ```text
-tests 3
-pass 3
+tests 15
+pass 15
 fail 0
 ```
 
@@ -157,6 +157,29 @@ Result: Pass
   "created_at": "2026-05-28T17:47:46.255Z"
 }
 ```
+
+### Contract Hardening Validation - 2026-05-28
+
+Result: Pass
+
+The lightweight Node contract suite now covers:
+
+- `GET /api/health` success
+- `POST /api/inquiries` success
+- Missing required fields: `name`, `email`, `inquiry_type`, `message`
+- Invalid email
+- Missing `consent_checkbox`
+- Unsupported content type
+- Unknown route fallback to static assets
+- Lead classification for `Licensing Inquiry`, `Partnership`, `Service Contract Request`, `Operating Systems / Buildout`, and `General Inquiry`
+
+```text
+tests 15
+pass 15
+fail 0
+```
+
+No production deployment was performed during this hardening pass. Wrangler validation was limited to `deploy --dry-run`.
 
 ## Current Status
 
