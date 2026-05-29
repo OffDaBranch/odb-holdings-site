@@ -73,6 +73,7 @@ const forbiddenPaths = [
 
 const allowedTopLevel = new Set([
   ".gitignore",
+  "AGENTS.md",
   "README.md",
   "docs",
   "migrations",
@@ -86,6 +87,7 @@ const allowedTopLevel = new Set([
   "tsconfig.json",
   "vitest.config.ts",
   "workers",
+  "wrangler.generated.jsonc",
   "wrangler.jsonc",
 ]);
 

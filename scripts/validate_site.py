@@ -142,6 +142,7 @@ FORBIDDEN_PATHS = [
 
 ALLOWED_TOP_LEVEL = {
     ".gitignore",
+    "AGENTS.md",
     "README.md",
     "docs",
     "migrations",
@@ -155,6 +156,7 @@ ALLOWED_TOP_LEVEL = {
     "tsconfig.json",
     "vitest.config.ts",
     "workers",
+    "wrangler.generated.jsonc",
     "wrangler.jsonc",
 }
 
