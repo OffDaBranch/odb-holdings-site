@@ -140,7 +140,7 @@ async function handleInquiry(request, env) {
     should_create_deal_queue_item: classification.should_create_deal_queue_item,
   });
 
-  await env.DB.prepare(
+  const leadInsert = env.DB.prepare(
     `INSERT INTO intake_leads (
       id,
       request_id,
@@ -173,42 +173,40 @@ async function handleInquiry(request, env) {
       routing_outputs_json,
       updated_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-  )
-    .bind(
-      leadId,
-      requestId,
-      name,
-      email,
-      phone,
-      company,
-      inquiryType,
-      message,
-      sourceUrl,
-      utmSource,
-      utmMedium,
-      utmCampaign,
-      1,
-      inquirySummary,
-      classification.lead_score,
-      classification.routing_next_action,
-      classification.deal_type,
-      "standard",
-      null,
-      "[]",
-      classification.should_create_deal_queue_item,
-      "new",
-      now,
-      now,
-      classification.routing_lane,
-      classification.routing_destination,
-      classification.routing_next_action,
-      humanReviewPath,
-      routingOutputsJson,
-      now
-    )
-    .run();
+  ).bind(
+    leadId,
+    requestId,
+    name,
+    email,
+    phone,
+    company,
+    inquiryType,
+    message,
+    sourceUrl,
+    utmSource,
+    utmMedium,
+    utmCampaign,
+    1,
+    inquirySummary,
+    classification.lead_score,
+    classification.routing_next_action,
+    classification.deal_type,
+    "standard",
+    null,
+    "[]",
+    classification.should_create_deal_queue_item,
+    "new",
+    now,
+    now,
+    classification.routing_lane,
+    classification.routing_destination,
+    classification.routing_next_action,
+    humanReviewPath,
+    routingOutputsJson,
+    now
+  );
 
-  await env.DB.prepare(
+  const eventInsert = env.DB.prepare(
     `INSERT INTO intake_events (
       id,
       lead_id,
@@ -216,23 +214,21 @@ async function handleInquiry(request, env) {
       event_payload,
       created_at
     ) VALUES (?, ?, ?, ?, ?)`
-  )
-    .bind(
-      eventId,
-      leadId,
-      "inquiry_submitted",
-      JSON.stringify({
-        request_id: requestId,
-        inquiry_type: inquiryType,
-        source_url: sourceUrl,
-        routing_lane: classification.routing_lane,
-        routing_destination: classification.routing_destination,
-      }),
-      now
-    )
-    .run();
+  ).bind(
+    eventId,
+    leadId,
+    "inquiry_submitted",
+    JSON.stringify({
+      request_id: requestId,
+      inquiry_type: inquiryType,
+      source_url: sourceUrl,
+      routing_lane: classification.routing_lane,
+      routing_destination: classification.routing_destination,
+    }),
+    now
+  );
 
-  await env.DB.prepare(
+  const queueInsert = env.DB.prepare(
     `INSERT INTO lead_sync_queue (
       id,
       lead_id,
@@ -242,9 +238,9 @@ async function handleInquiry(request, env) {
       created_at,
       updated_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?)`
-  )
-    .bind(queueId, leadId, "airtable", "pending", 0, now, now)
-    .run();
+  ).bind(queueId, leadId, "airtable", "pending", 0, now, now);
+
+  await env.DB.batch([leadInsert, eventInsert, queueInsert]);
 
   return jsonResponse({
     ok: true,
