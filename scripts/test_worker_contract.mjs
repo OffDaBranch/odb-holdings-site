@@ -86,6 +86,7 @@ const CLASSIFICATION_CASES = [
 
 function makeEnv() {
   const statements = [];
+  const batches = [];
   const assetRequests = [];
 
   return {
@@ -94,14 +95,23 @@ function makeEnv() {
         prepare(sql) {
           return {
             bind(...values) {
-              return {
+              const statement = {
+                sql,
+                values,
                 async run() {
                   statements.push({ sql, values });
                   return { success: true };
                 },
               };
+
+              return statement;
             },
           };
+        },
+        async batch(preparedStatements) {
+          batches.push(preparedStatements);
+          statements.push(...preparedStatements.map(({ sql, values }) => ({ sql, values })));
+          return preparedStatements.map(() => ({ success: true }));
         },
       },
       ASSETS: {
@@ -112,6 +122,7 @@ function makeEnv() {
       },
     },
     statements,
+    batches,
     assetRequests,
   };
 }
@@ -164,8 +175,8 @@ test("GET /api/health reports binding state", async () => {
   assert.match(body.checked_at, /^\d{4}-\d{2}-\d{2}T/);
 });
 
-test("POST /api/inquiries stores a classified lead, event, and Airtable queue row", async () => {
-  const { env, statements } = makeEnv();
+test("POST /api/inquiries stores a classified lead, event, and Airtable queue row atomically", async () => {
+  const { env, statements, batches } = makeEnv();
   const payload = buildPayload();
 
   const response = await postInquiry(env, payload);
@@ -179,6 +190,8 @@ test("POST /api/inquiries stores a classified lead, event, and Airtable queue ro
   assert.match(body.request_id, /^[0-9a-f-]{36}$/i);
   assert.match(body.lead_id, /^[0-9a-f-]{36}$/i);
 
+  assert.equal(batches.length, 1);
+  assert.equal(batches[0].length, 3);
   assert.equal(statements.length, 3);
   assert.match(statements[0].sql, /INSERT INTO intake_leads/i);
   assert.match(statements[1].sql, /INSERT INTO intake_events/i);
