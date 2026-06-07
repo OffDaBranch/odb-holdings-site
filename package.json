@@ -8,7 +8,10 @@
     "build": "npm run validate && tsc --noEmit",
     "dev": "wrangler dev --local --port 8787",
     "test": "vitest run",
-    "deploy:dry-run": "wrangler deploy --dry-run"
+    "deploy:dry-run": "wrangler deploy --dry-run",
+    "migrate:preview": "wrangler d1 migrations apply branchops-intake-preview --env preview --remote",
+    "deploy:preview": "wrangler deploy --env preview",
+    "deploy:production": "wrangler deploy"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260520.0",
