@@ -11,6 +11,7 @@ const requiredPaths = [
   path.join(PUBLIC, "styles.css"),
   path.join(PUBLIC, "site.js"),
   path.join(PUBLIC, "404.html"),
+  path.join(PUBLIC, "branchops", "index.html"),
   path.join(PUBLIC, "about", "index.html"),
   path.join(PUBLIC, "companies", "index.html"),
   path.join(PUBLIC, "companies", "branchops", "index.html"),
@@ -43,6 +44,7 @@ const requiredPaths = [
 
 const pageExpectations = new Map([
   [path.join(PUBLIC, "index.html"), ["Founder-led holding company", 'href="/about"', 'href="/companies"', 'href="/assets"', 'href="/licensing"', 'href="/contact"', 'href="/companies/branchops"', 'href="/companies/trapcotton"', 'href="/assets/digital-property"']],
+  [path.join(PUBLIC, "branchops", "index.html"), ["BranchOps public front door", "Build your business with structure, proof, and control.", "Start Founder Intake", "See How BranchOps Works", "BranchOps verification is not surveillance", "Public certificates are not issued at signup", "Create My Business File", 'href="/contact"', 'href="#how-it-works"']],
   [path.join(PUBLIC, "about", "index.html"), ["HoldCo Model", "Ownership Philosophy"]],
   [path.join(PUBLIC, "companies", "index.html"), ["Companies And Brands", "Current Portfolio Map", 'href="/companies/branchops"', 'href="/companies/trapcotton"']],
   [path.join(PUBLIC, "companies", "branchops", "index.html"), ["BranchOps", "Operating Scope", 'href="/assets/operating-systems"']],
