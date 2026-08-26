@@ -10,9 +10,39 @@ class FakeD1Database {
   leads: StoredLead[] = [];
   events: Array<Record<string, unknown>> = [];
   queue: Array<Record<string, unknown>> = [];
+  batches: string[][] = [];
+
+  constructor(private readonly failOnSqlPrefix?: string) {}
 
   prepare(sql: string) {
     return new FakeD1Statement(this, sql);
+  }
+
+  async batch(statements: FakeD1Statement[]) {
+    this.batches.push(statements.map((statement) => statement.sql));
+
+    const checkpoint = {
+      leads: this.leads.length,
+      events: this.events.length,
+      queue: this.queue.length,
+    };
+
+    try {
+      const results = [];
+      for (const statement of statements) {
+        results.push(await statement.run());
+      }
+      return results;
+    } catch (error) {
+      this.leads.length = checkpoint.leads;
+      this.events.length = checkpoint.events;
+      this.queue.length = checkpoint.queue;
+      throw error;
+    }
+  }
+
+  shouldFail(sql: string) {
+    return this.failOnSqlPrefix !== undefined && sql.trim().startsWith(this.failOnSqlPrefix);
   }
 }
 
@@ -21,7 +51,7 @@ class FakeD1Statement {
 
   constructor(
     private readonly db: FakeD1Database,
-    private readonly sql: string,
+    readonly sql: string,
   ) {}
 
   bind(...params: unknown[]) {
@@ -30,6 +60,10 @@ class FakeD1Statement {
   }
 
   async run() {
+    if (this.db.shouldFail(this.sql)) {
+      throw new Error(`Simulated D1 failure for ${this.sql.trim().split(" ")[0]}`);
+    }
+
     if (this.sql.startsWith("INSERT INTO intake_leads")) {
       const [
         id,
@@ -174,7 +208,23 @@ describe("BranchOps intake API", () => {
     expect(db.leads[0].inquiry_type).toBe("Licensing");
     expect(db.leads[0].lead_score).toBeGreaterThanOrEqual(70);
     expect(db.events).toHaveLength(1);
-    expect(db.queue.some((item) => item.target_system === "airtable:website_inquiries")).toBe(true);
+    expect(db.queue.map((item) => item.target_system)).toEqual([
+      "airtable:website_inquiries",
+      "airtable:deal_queue",
+      "notion:lead_routing_sop",
+    ]);
+    expect(db.batches).toHaveLength(1);
+    expect(db.batches[0]).toHaveLength(5);
+  });
+
+  it("rolls back the accepted lead when any batched write fails", async () => {
+    const db = new FakeD1Database("INSERT INTO lead_sync_queue");
+
+    await expect(postIntake(validPayload(), makeEnv(db))).rejects.toThrow("Simulated D1 failure");
+    expect(db.batches).toHaveLength(1);
+    expect(db.leads).toHaveLength(0);
+    expect(db.events).toHaveLength(0);
+    expect(db.queue).toHaveLength(0);
   });
 
   it("rejects missing required fields with structured JSON", async () => {

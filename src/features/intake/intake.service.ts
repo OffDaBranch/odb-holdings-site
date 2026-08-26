@@ -56,7 +56,7 @@ export async function createIntakeLead(params: {
     created_at: createdAt,
   };
 
-  await params.db
+  const leadInsert = params.db
     .prepare(
       `INSERT INTO intake_leads (
         id, request_id, name, email, phone, company, inquiry_type, message, source_url,
@@ -90,8 +90,7 @@ export async function createIntakeLead(params: {
       lead.status,
       lead.submitted_at,
       lead.created_at,
-    )
-    .run();
+    );
 
   const eventPayload: IntakeEventPayload = {
     request_id: params.requestId,
@@ -100,21 +99,20 @@ export async function createIntakeLead(params: {
     should_create_deal_queue_item: params.classification.should_create_deal_queue_item,
   };
 
-  await params.db
+  const eventInsert = params.db
     .prepare("INSERT INTO intake_events (id, lead_id, event_type, event_payload, created_at) VALUES (?, ?, ?, ?, ?)")
-    .bind(createId("evt"), lead.id, "lead.created", JSON.stringify(eventPayload), createdAt)
-    .run();
+    .bind(createId("evt"), lead.id, "lead.created", JSON.stringify(eventPayload), createdAt);
 
   const queuedTargets = queueTargetsForLead(params.classification);
-
-  for (const target of queuedTargets) {
-    await params.db
+  const queueInserts = queuedTargets.map((target) =>
+    params.db
       .prepare(
         "INSERT INTO lead_sync_queue (id, lead_id, target_system, sync_status, attempts, last_error, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       )
-      .bind(createId("sync"), lead.id, target, "pending", 0, null, createdAt, null)
-      .run();
-  }
+      .bind(createId("sync"), lead.id, target, "pending", 0, null, createdAt, null),
+  );
+
+  await params.db.batch([leadInsert, eventInsert, ...queueInserts]);
 
   return { lead, queuedTargets };
 }
